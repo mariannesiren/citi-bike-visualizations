@@ -3,7 +3,7 @@
 ### This is a school project for learning Bokeh
 
 #### The data used here is Citi Bike Trip History Data which can be found [here](https://s3.amazonaws.com/tripdata/index.html)
-##### This project uses only data from one day!
+##### This project uses only data from one month!
 
 ### If you want to run this on your computer, you need to install Anaconda, Bokeh, Pandas and get Google Maps API KEY.
 
