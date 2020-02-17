@@ -5,21 +5,20 @@ from config import *
 import pandas as pd
 
 df_start_stations = pd.read_csv('citi-bike-history-data.csv',
-                 usecols=[
-                     "start station name",
-                     "start station id",
-                     "start station latitude",
-                     "start station longitude"
-                 ])
+                                usecols=[
+                                    "start station name",
+                                    "start station id",
+                                    "start station latitude",
+                                    "start station longitude"
+                                ])
 
 df_end_stations = pd.read_csv('citi-bike-history-data.csv',
-                 usecols=[
-                     "end station name",
-                     "end station id",
-                     "end station latitude",
-                     "end station longitude"
-                 ])
-
+                              usecols=[
+                                  "end station name",
+                                  "end station id",
+                                  "end station latitude",
+                                  "end station longitude"
+                              ])
 
 # Create tuples from start station dataframe
 tuples_start_stations = [tuple(x) for x in df_start_stations.to_numpy()]
