@@ -4,6 +4,7 @@ from bokeh.plotting import gmap
 from config import *
 import pandas as pd
 
+# Stations on map -->
 df_start_stations = pd.read_csv('citi-bike-history-data.csv',
                                 usecols=[
                                     "start station name",
