@@ -1,5 +1,5 @@
 from bokeh.plotting import output_file, show, figure
-from bokeh.models import ColumnDataSource, Group, HoverTool
+from bokeh.models import HoverTool
 import pandas as pd
 
 df = pd.read_csv('citi-bike-history-data.csv', usecols=["tripduration", "start station name"])
