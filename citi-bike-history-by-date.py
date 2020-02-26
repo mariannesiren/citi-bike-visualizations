@@ -1,12 +1,11 @@
-from bokeh.plotting import output_file, show, figure
+from bokeh.plotting import figure
+from bokeh.io import curdoc
 from bokeh.models import ColumnDataSource, HoverTool, ColorBar
 from bokeh.palettes import Spectral6
 from bokeh.transform import linear_cmap
 import pandas as pd
 
 df = pd.read_csv('citi-bike-history-data.csv', usecols=["tripduration", "starttime"])
-
-output_file("trip-durations-by-date.html")
 
 grouped_data = df.groupby('starttime')['tripduration'].sum().to_frame().reset_index()
 
@@ -36,4 +35,4 @@ p.add_tools(hover)
 color_bar = ColorBar(color_mapper=mapper['transform'], width=8,  location=(0,0))
 p.add_layout(color_bar, 'right')
 
-show(p)
+curdoc().add_root(p)

@@ -1,5 +1,6 @@
 from bokeh.layouts import column
-from bokeh.plotting import output_file, show, figure
+from bokeh.plotting import figure
+from bokeh.io import curdoc
 from bokeh.models import HoverTool, Slider, ColorBar
 from bokeh.palettes import Spectral6
 from bokeh.transform import linear_cmap
@@ -8,8 +9,6 @@ import pandas as pd
 df = pd.read_csv('citi-bike-history-data.csv', usecols=["tripduration", "start station name"])
 
 grouped_data = df.groupby('start station name')['tripduration'].sum().to_frame().reset_index()
-
-output_file("citi-bike-history-by-station.html")
 
 mapper = linear_cmap(
     field_name='y',
@@ -39,4 +38,4 @@ slider.js_link('value', r.glyph, 'radius')
 color_bar = ColorBar(color_mapper=mapper['transform'], width=8,  location=(0,0))
 p.add_layout(color_bar, 'right')
 
-show(column(p, slider))
+curdoc().add_root(column(p, slider))
