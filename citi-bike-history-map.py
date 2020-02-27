@@ -12,6 +12,7 @@ df = pd.read_csv('citi-bike-history-data.csv',
                  ])
 
 df.columns = ["Station", "Latitude", "Longitude"]
+df.drop_duplicates(subset=["Station", "Latitude", "Longitude"], inplace=True)
 
 source = ColumnDataSource(
     data=dict(lat=df.Latitude,
