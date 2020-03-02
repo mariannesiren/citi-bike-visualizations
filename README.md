@@ -12,4 +12,4 @@
 2. Install Bokeh: ``conda install bokeh`` (Read more from here: https://docs.bokeh.org/en/latest/docs/user_guide/quickstart.html#userguide-quickstart-install)
 3. Install Pandas: ``pip install pandas`` (Read more from here: https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html)
 4. Get Google Maps API KEY
-5. Run visualizations for example like this: ``bokeh serve citi-bike-history-map.py``
+5. To see all visualizations at once, run: ``bokeh serve citi-bike-history.py`` and open http://localhost:5006/citi-bike-history
