@@ -1,12 +1,14 @@
 from bokeh.layouts import column, row, layout
 from bokeh.plotting import figure
 from bokeh.io import curdoc
-from bokeh.models import ColumnDataSource, HoverTool, ColorBar, Slider, GMapOptions
+from bokeh.models import ColumnDataSource, HoverTool, ColorBar, Slider, GMapOptions, DaysTicker
+from bokeh.models.formatters import DatetimeTickFormatter
 from bokeh.plotting import gmap
 from bokeh.palettes import Spectral6
 from bokeh.transform import linear_cmap
 from config import *
 import pandas as pd
+import numpy as np
 
 # Read data from csv
 df = pd.read_csv('citi-bike-history-data.csv', usecols=[
@@ -19,10 +21,10 @@ df = pd.read_csv('citi-bike-history-data.csv', usecols=[
 ])
 
 df.columns = ["Tripduration", "Station", "Starttime", "Latitude", "Longitude", "Gender"]
-
+df['Starttime'] = pd.to_datetime(df['Starttime'])
 
 # Plot trip duration minutes by start time
-grouped_data_by_start_time = df.groupby('Starttime')['Tripduration'].sum().to_frame().reset_index()
+grouped_data_by_start_time = df.groupby(df['Starttime'].dt.date)['Tripduration'].sum().to_frame().reset_index()
 
 mapper_top = linear_cmap(
     field_name='top',
@@ -35,19 +37,25 @@ plot_by_starttime = figure(
     title="Trip duration minutes in December 2019",
     plot_width=800,
     plot_height=620,
-    x_range=grouped_data_by_start_time['Starttime']
+    x_axis_type='datetime'
 )
 
-plot_by_starttime.vbar(x=grouped_data_by_start_time['Starttime'], top=grouped_data_by_start_time['Tripduration'] % 60, width=0.9,  line_color=mapper_top, color=mapper_top)
+start_time = pd.to_datetime(grouped_data_by_start_time['Starttime'])
 
+plot_by_starttime.vbar(
+    x=pd.to_datetime(grouped_data_by_start_time['Starttime']),
+    top=grouped_data_by_start_time['Tripduration'] % 60,
+    width=0.9,
+    line_color=mapper_top,
+    color=mapper_top,
+    line_width=4
+)
+
+plot_by_starttime.xaxis.ticker = DaysTicker(days=np.arange(1, 32))
+plot_by_starttime.xaxis.formatter = DatetimeTickFormatter(days=["%d, %b %Y"])
 plot_by_starttime.y_range.start = 0
-plot_by_starttime.x_range.range_padding = 0.05
 plot_by_starttime.xaxis.major_label_orientation = 1.2
 plot_by_starttime.toolbar_location = None
-
-hover = HoverTool()
-hover.tooltips = [('Trip duration', '@top')]
-plot_by_starttime.add_tools(hover)
 
 color_bar = ColorBar(color_mapper=mapper_top['transform'], width=8,  location=(0,0))
 plot_by_starttime.add_layout(color_bar, 'right')
