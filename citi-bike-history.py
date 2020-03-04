@@ -93,6 +93,16 @@ color_bar = ColorBar(color_mapper=mapper_y['transform'], width=8,  location=(0,0
 plot_by_station.add_layout(color_bar, 'right')
 
 
+# The amount of trips by station
+amount_of_trips = df.groupby('Station').size().to_frame().reset_index()
+amount_of_trips.columns = ["Station", "Trips"]
+
+plot_trips_by_stations = figure(plot_width=900, plot_height=800, x_range=amount_of_trips['Station'], title="Amount of trips done in December 2019 from stations")
+plot_trips_by_stations.line(amount_of_trips['Station'].values, amount_of_trips['Trips'].values, line_width=2)
+plot_trips_by_stations.xaxis.major_label_orientation = 1.2
+plot_trips_by_stations.y_range.start = 0
+
+
 # Map with stations
 df.drop_duplicates(subset=["Station", "Latitude", "Longitude"], inplace=True)
 
@@ -113,6 +123,5 @@ map.add_tools(hover)
 map.circle(x="lon", y="lat", size=10, fill_color="tomato", fill_alpha=0.8, source=source)
 
 # Output plots
-doc_layout = layout(column(map, row(column(plot_by_station, slider), plot_by_starttime)))
+doc_layout = layout(row(map, plot_trips_by_stations), row(column(plot_by_station, slider), plot_by_starttime))
 curdoc().add_root(doc_layout)
-
