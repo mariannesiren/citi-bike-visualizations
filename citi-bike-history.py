@@ -16,11 +16,10 @@ df = pd.read_csv('citi-bike-history-data.csv', usecols=[
     "starttime",
     "start station name",
     "start station latitude",
-    "start station longitude",
-    "gender"
+    "start station longitude"
 ])
 
-df.columns = ["Tripduration", "Station", "Starttime", "Latitude", "Longitude", "Gender"]
+df.columns = ["Tripduration", "Station", "Starttime", "Latitude", "Longitude"]
 df['Starttime'] = pd.to_datetime(df['Starttime'])
 
 # Plot trip duration minutes by start time
